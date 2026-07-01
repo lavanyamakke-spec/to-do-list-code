@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Colorful To-Do App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      width: 400px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffeb3b;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    input[type="text"], input[type="datetime-local"] {
+      width: calc(100% - 20px);
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: #ff5722;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e91e63;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.2);
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+
+    li.completed {
+      text-decoration: line-through;
+      background: rgba(0, 255, 0, 0.5);
+    }
+
+    .task-buttons button {
+      margin-left: 5px;
+      font-size: 12px;
+      padding: 5px 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🌟 My To-Do List 🌟</h2>
+    <input id="taskInput" type="text" placeholder="Enter task">
+    <input id="taskDate" type="datetime-local">
+    <button onclick="addTask()">Add Task</button>
+    
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      let task = document.getElementById("taskInput").value;
+      let date = document.getElementById("taskDate").value;
+      if(task) {
+        let li = document.createElement("li");
+        li.innerHTML = `
+          <span>${task} <small style="color:yellow;">${date}</small></span>
+          <div class="task-buttons">
+            <button onclick="completeTask(this)">✔</button>
+            <button onclick="editTask(this)">✏</button>
+            <button onclick="deleteTask(this)">🗑</button>
+          </div>
+        `;
+        document.getElementById("taskList").appendChild(li);
+        document.getElementById("taskInput").value = "";
+        document.getElementById("taskDate").value = "";
+      }
+    }
+
+    function completeTask(btn) {
+      let li = btn.parentNode.parentNode;
+      li.classList.toggle("completed");
+    }
+
+    function editTask(btn) {
+      let li = btn.parentNode.parentNode;
+      let text = li.querySelector("span").innerText.split(" ")[0];
+      let newTask = prompt("Edit task:", text);
+      if(newTask) {
+        li.querySelector("span").innerText = newTask;
+      }
+    }
+
+    function deleteTask(btn) {
+      let li = btn.parentNode.parentNode;
+      li.remove();
+    }
+  </script>
+</body>
+</html>
